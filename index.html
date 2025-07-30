@@ -1,0 +1,75 @@
+// Lista de vídeos do YouTube sobre Camila Loures com suas miniaturas, títulos e links
+let videos = [
+  {
+    title: "Camila Loures Vlog 1",
+    thumbnail: "https://img.youtube.com/vi/Ad4Fi3D7T5o/0.jpg",
+    link: "https://www.youtube.com/watch?v=Ad4Fi3D7T5o"
+  },
+  {
+    title: "Camila Loures Vlog 2",
+    thumbnail: "https://img.youtube.com/vi/OddL_pNhqQ8/0.jpg",
+    link: "https://www.youtube.com/watch?v=OddL_pNhqQ8"
+  },
+  {
+    title: "Camila Loures Challenge",
+    thumbnail: "https://img.youtube.com/vi/YJ58FJl4vGc/0.jpg",
+    link: "https://www.youtube.com/watch?v=YJ58FJl4vGc"
+  },
+  {
+    title: "Camila Loures Vlog de Viagem",
+    thumbnail: "https://img.youtube.com/vi/zj3NxwJml_g/0.jpg",
+    link: "https://www.youtube.com/watch?v=zj3NxwJml_g"
+  }
+];
+
+function setup() {
+  createCanvas(600, 500);
+  background(255);
+  noLoop();
+  
+  // Cabeçalho do catálogo
+  textSize(24);
+  textAlign(CENTER, TOP);
+  fill(50);
+  text("Catálogo de Vídeos - Camila Loures", width / 2, 20);
+  
+  // Exibição dos vídeos
+  let yPosition = 60;
+  for (let i = 0; i < videos.length; i++) {
+    let video = videos[i];
+    displayVideo(video, yPosition);
+    yPosition += 120;
+  }
+}
+
+function displayVideo(video, yPosition) {
+  // Exibir miniatura
+  let img = loadImage(video.thumbnail);
+  image(img, 50, yPosition, 100, 56); // Ajuste do tamanho da imagem
+  
+  // Exibir título
+  textSize(16);
+  textAlign(LEFT, TOP);
+  fill(0);
+  text(video.title, 160, yPosition + 10);
+  
+  // Exibir link (botão simples)
+  fill(0, 102, 204);
+  rect(160, yPosition + 40, 200, 30, 5); // Botão
+  fill(255);
+  textSize(12);
+  textAlign(CENTER, CENTER);
+  text("Assistir", 260, yPosition + 55); // Texto do botão
+}
+
+function mousePressed() {
+  // Verificar se o botão foi clicado
+  let yPosition = 60;
+  for (let i = 0; i < videos.length; i++) {
+    let video = videos[i];
+    if (mouseX > 160 && mouseX < 360 && mouseY > yPosition + 40 && mouseY < yPosition + 70) {
+      window.open(video.link, "_blank"); // Abrir o link em uma nova aba
+    }
+    yPosition += 120;
+  }
+}
