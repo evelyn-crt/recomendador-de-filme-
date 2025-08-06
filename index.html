@@ -1,75 +1,115 @@
-// Lista de vídeos do YouTube sobre Camila Loures com suas miniaturas, títulos e links
-let videos = [
-  {
-    title: "Camila Loures Vlog 1",
-    thumbnail: "https://img.youtube.com/vi/Ad4Fi3D7T5o/0.jpg",
-    link: "https://www.youtube.com/watch?v=Ad4Fi3D7T5o"
-  },
-  {
-    title: "Camila Loures Vlog 2",
-    thumbnail: "https://img.youtube.com/vi/OddL_pNhqQ8/0.jpg",
-    link: "https://www.youtube.com/watch?v=OddL_pNhqQ8"
-  },
-  {
-    title: "Camila Loures Challenge",
-    thumbnail: "https://img.youtube.com/vi/YJ58FJl4vGc/0.jpg",
-    link: "https://www.youtube.com/watch?v=YJ58FJl4vGc"
-  },
-  {
-    title: "Camila Loures Vlog de Viagem",
-    thumbnail: "https://img.youtube.com/vi/zj3NxwJml_g/0.jpg",
-    link: "https://www.youtube.com/watch?v=zj3NxwJml_g"
-  }
-];
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendador de Filmes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #resultado {
+            margin-top: 20px;
+            padding: 10px;
+            display: none;
+        }
+        .filme {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Recomendador de Filmes</h1>
+        <select id="genero">
+            <option value="">Escolha um gênero</option>
+            <option value="acao">Ação</option>
+            <option value="comedia">Comédia</option>
+            <option value="drama">Drama</option>
+            <option value="ficcao">Ficção Científica</option>
+            <option value="romance">Romance</option>
+        </select>
+        <button onclick="recomendarFilme()">Recomendar</button>
+        <div id="resultado"></div>
+    </div>
 
-function setup() {
-  createCanvas(600, 500);
-  background(255);
-  noLoop();
-  
-  // Cabeçalho do catálogo
-  textSize(24);
-  textAlign(CENTER, TOP);
-  fill(50);
-  text("Catálogo de Vídeos - Camila Loures", width / 2, 20);
-  
-  // Exibição dos vídeos
-  let yPosition = 60;
-  for (let i = 0; i < videos.length; i++) {
-    let video = videos[i];
-    displayVideo(video, yPosition);
-    yPosition += 120;
-  }
-}
+    <script>
+        const filmes = {
+            acao: [
+                { titulo: "John Wick", ano: 2014, sinopse: "Um ex-assassino busca vingança após perder tudo." },
+                { titulo: "Velozes e Furiosos 7", ano: 2015, sinopse: "Corridas e ação em uma missão de vingança." }
+            ],
+            comedia: [
+                { titulo: "As Branquelas", ano: 2004, sinopse: "Dois agentes do FBI se disfarçam de socialites." },
+                { titulo: "Zumbilândia", ano: 2009, sinopse: "Sobreviventes enfrentam zumbis com humor." }
+            ],
+            drama: [
+                { titulo: "À Procura da Felicidade", ano: 2006, sinopse: "Um pai luta para sustentar seu filho." },
+                { titulo: "Um Sonho Possível", ano: 2009, sinopse: "Uma história inspiradora de superação." }
+            ],
+            ficcao: [
+                { titulo: "Matrix", ano: 1999, sinopse: "Um hacker descobre a verdade sobre a realidade." },
+                { titulo: "Duna", ano: 2021, sinopse: "Uma épica jornada em um planeta desértico." }
+            ],
+            romance: [
+                { titulo: "Como Eu Era Antes de Você", ano: 2016, sinopse: "Um romance entre uma cuidadora e um paciente." },
+                { titulo: "La La Land", ano: 2016, sinopse: "Amor e sonhos colidem em Los Angeles." }
+            ]
+        };
 
-function displayVideo(video, yPosition) {
-  // Exibir miniatura
-  let img = loadImage(video.thumbnail);
-  image(img, 50, yPosition, 100, 56); // Ajuste do tamanho da imagem
-  
-  // Exibir título
-  textSize(16);
-  textAlign(LEFT, TOP);
-  fill(0);
-  text(video.title, 160, yPosition + 10);
-  
-  // Exibir link (botão simples)
-  fill(0, 102, 204);
-  rect(160, yPosition + 40, 200, 30, 5); // Botão
-  fill(255);
-  textSize(12);
-  textAlign(CENTER, CENTER);
-  text("Assistir", 260, yPosition + 55); // Texto do botão
-}
+        function recomendarFilme() {
+            const genero = document.getElementById('genero').value;
+            const resultado = document.getElementById('resultado');
 
-function mousePressed() {
-  // Verificar se o botão foi clicado
-  let yPosition = 60;
-  for (let i = 0; i < videos.length; i++) {
-    let video = videos[i];
-    if (mouseX > 160 && mouseX < 360 && mouseY > yPosition + 40 && mouseY < yPosition + 70) {
-      window.open(video.link, "_blank"); // Abrir o link em uma nova aba
-    }
-    yPosition += 120;
-  }
-}
+            if (!genero) {
+                resultado.innerHTML = '<p class="filme">Por favor, selecione um gênero.</p>';
+                resultado.style.display = 'block';
+                return;
+            }
+
+            const filme = filmes[genero][Math.floor(Math.random() * filmes[genero].length)];
+            resultado.innerHTML = `
+                <div class="filme">
+                    <h3>${filme.titulo} (${filme.ano})</h3>
+                    <p>${filme.sinopse}</p>
+                </div>
+            `;
+            resultado.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
